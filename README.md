@@ -1,0 +1,1 @@
+# go-smarty-reader
