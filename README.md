@@ -1,8 +1,8 @@
 # Go Smarty Reader
 
-The smart meter (called _Smarty_) deployed in Luxembourg allows the user to access a predefined set of data over the P1 Port interface, like its counterpart in the Netherlands.
+The smart meter (called _Smarty_) deployed in Luxembourg allows the user to access a predefined set of data over the P1 port, a serial read-only interface, like its counterpart in the Netherlands.
 However the data stream in Luxembourg is encrypted using the AES128-GCM algorithm (see the [specification](https://www.nexxtlab.lu/download/453/)), which raises the barrier for anyone interested in their own energy consumption.
-This is were Go Smarty Reader comes into play: Handling the serial connection, decrypting the Smarty telegrams, optionally publishing the measurements via MQTT, and with Golang as basis it easily compiles for different platforms.
+This is where Go Smarty Reader comes into play: handling the serial connection, decrypting the Smarty telegrams, optionally publishing the measurements via MQTT, and with Golang as basis it easily compiles for different platforms.
 
 For additional information please visit our [blog post](https://www.nexxtlab.lu/smarty-dongle/) at NEXXTLAB
   
@@ -47,7 +47,7 @@ go run ./cmd/OnlineDecryption/main.go -key yourKey -device yourInterface -stderr
 ```
 Now you should see every 10 seconds the result of a decrypted Smarty telegram in your console. Please find the meaning of the OBIS codes in the [specification](https://www.nexxtlab.lu/download/453/)  
 
-You may swap the *OnlineDecryption* part of the part to any other example. Not every example requires all flags.
+You may swap the *OnlineDecryption* part of the path to any other example found in the [cmd/](https://github.com/NEXXTLAB/go-smarty-reader/tree/master/cmd) folder. Not every example requires all flags.
 
 
 ## Running the tests
