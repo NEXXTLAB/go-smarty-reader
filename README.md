@@ -4,7 +4,7 @@ The smart meter (called _Smarty_) deployed in Luxembourg allows the user to acce
 However the data stream in Luxembourg is encrypted using the AES128-GCM algorithm (see the [specification](https://www.nexxtlab.lu/download/453/)), which raises the barrier for anyone interested in their own energy consumption.
 This is where Go Smarty Reader comes into play: handling the serial connection, decrypting the Smarty telegrams, optionally publishing the measurements via MQTT, and with Golang as basis it easily compiles for different platforms.
 
-For additional information please visit our [blog post](https://www.nexxtlab.lu/smarty-dongle/) at NEXXTLAB
+For additional information please visit our [blog post](https://www.nexxtlab.lu/smarty-dongle/) at NEXXTLAB.
   
 
 ## Getting Started
@@ -16,7 +16,7 @@ These instructions will get you a copy of the project up and running on your loc
 Have [Go installed](https://golang.org/doc/install) and properly set up.
 
 In order to connect Smarty to your machine you will need a P1 Cable (Dutch name: _Slimme Meter Kabel P1_), or build it yourself as seen on [weigu.lu](http://weigu.lu/microcontroller/smartyreader/index.html).
-Furthermore ask your electrical grid operator for your decryption key.
+Furthermore ask your electricity grid operator for your P1 decryption key.
 
 
 ### Installing
