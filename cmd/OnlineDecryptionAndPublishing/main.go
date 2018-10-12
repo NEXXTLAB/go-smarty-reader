@@ -89,7 +89,7 @@ func getHostname() string {
 		fmt.Println(err)
 		hostname = "BackupSystemHost-123"
 	}
-	fmt.Printf("Deteced hostname: %s\n", hostname)
+	fmt.Printf("Detected hostname: %s\n", hostname)
 	return hostname
 }
 
