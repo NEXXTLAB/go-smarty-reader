@@ -25,7 +25,7 @@ Run the following command to get a local copy of the project
 ```
 go get github.com/NEXXTLAB/go-smarty-reader
 ```
-After this you need to get the project dependencies. Either you 'go get' all four of the third party libraries listed at the bottom, or you use [dep](https://github.com/golang/dep) with your console points to the project directory.
+After this you need to get the project dependencies. Either you 'go get' all four of the third party libraries listed at the bottom, or you use [dep](https://github.com/golang/dep) with your console pointing to the project directory.
 ```
 dep ensure
 ```
