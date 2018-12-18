@@ -22,32 +22,32 @@
 package main
 
 import (
-	"github.com/NEXXTLAB/go-smarty-reader/cmd/util"
-	"github.com/NEXXTLAB/go-smarty-reader/smarty"
+    "github.com/NEXXTLAB/go-smarty-reader/cmd/util"
+    "github.com/NEXXTLAB/go-smarty-reader/smarty"
 )
 
 func main() {
 
-	// Function defined in cmd/util/CommonFlagParsing.go
-	deviceFlag, _ := util.StartupFlagParsing()
+    // Function defined in cmd/util/CommonFlagParsing.go
+    deviceFlag, _ := util.StartupFlagParsing()
 
-	// Create a new smarty reader which will not decrypt the telegrams,
-	// but return the initial value and the cipher text
-	// The serial connection is established right away
-	// smartyObj is the object you may invoke methods on
-	smartyObj := smarty.NewCipherForwarder(*deviceFlag)
+    // Create a new smarty reader which will not decrypt the telegrams,
+    // but return the initial value and the cipher text
+    // The serial connection is established right away
+    // smartyObj is the object you may invoke methods on
+    smartyObj := smarty.NewCipherForwarder(*deviceFlag)
 
-	// Print 100 initial value / cipher tuples
-	for counter := 0; counter < 100; counter++ {
-		// Wait and get the next telegram,
-		// return the initial value and cipher text
-		iv, cipher, gcmTag := smartyObj.GetTelegram()
-		// Print as console output
-		println(string(iv))
-		println(string(cipher))
-		println(string(gcmTag))
-		println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-	}
-	// After use, remember to close to serial port!
-	smartyObj.Disconnect()
+    // Print 100 initial value / cipher tuples
+    for counter := 0; counter < 100; counter++ {
+        // Wait and get the next telegram,
+        // return the initial value and cipher text
+        iv, cipher, gcmTag := smartyObj.GetTelegram()
+        // Print as console output
+        println(string(iv))
+        println(string(cipher))
+        println(string(gcmTag))
+        println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    }
+    // After use, remember to close to serial port!
+    smartyObj.Disconnect()
 }

@@ -22,31 +22,31 @@
 package main
 
 import (
-	"github.com/NEXXTLAB/go-smarty-reader/cmd/util"
-	"github.com/NEXXTLAB/go-smarty-reader/smarty"
+    "github.com/NEXXTLAB/go-smarty-reader/cmd/util"
+    "github.com/NEXXTLAB/go-smarty-reader/smarty"
 )
 
 func main() {
 
-	// Function defined in cmd/util/CommonFlagParsing.go
-	deviceFlag, keyFlag := util.StartupFlagParsing()
+    // Function defined in cmd/util/CommonFlagParsing.go
+    deviceFlag, keyFlag := util.StartupFlagParsing()
 
-	// Create a new smarty reader which will decrypt the telegrams after reading them
-	// The serial connection is established right away
-	// smartyObj is the object you may invoke methods on
-	smartyObj := smarty.NewOnlineDecryptor(*deviceFlag, *keyFlag)
+    // Create a new smarty reader which will decrypt the telegrams after reading them
+    // The serial connection is established right away
+    // smartyObj is the object you may invoke methods on
+    smartyObj := smarty.NewOnlineDecryptor(*deviceFlag, *keyFlag)
 
-	// Read until 100 telegrams could be successfully decrypted
-	for telegramCounter := 0; telegramCounter < 100; {
-		// Wait, get and decrypt the next telegram
-		plainText, ok := smartyObj.GetTelegram()
-		// If the decryption was successful, print the payload to the console
-		if ok {
-			println(string(plainText))
-			println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-			telegramCounter++
-		}
-	}
-	// After use, remember to close to serial port!
-	smartyObj.Disconnect()
+    // Read until 100 telegrams could be successfully decrypted
+    for telegramCounter := 0; telegramCounter < 100; {
+        // Wait, get and decrypt the next telegram
+        plainText, ok := smartyObj.GetTelegram()
+        // If the decryption was successful, print the payload to the console
+        if ok {
+            println(string(plainText))
+            println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+            telegramCounter++
+        }
+    }
+    // After use, remember to close to serial port!
+    smartyObj.Disconnect()
 }

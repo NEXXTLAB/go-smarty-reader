@@ -18,30 +18,30 @@
 package util
 
 import (
-	"flag"
+    "flag"
 
-	"github.com/golang/glog"
+    "github.com/golang/glog"
 )
 
 func StartupFlagParsing() (deviceFlag, keyFlag *string) {
 
-	const VERSION = "1.0.0"
+    const VERSION = "1.0.0"
 
-	// Define flags
-	deviceFlag = flag.String("device", "", "Serial device to read P1 data from.")
-	keyFlag = flag.String("key", "", "Decryption Key to use.")
+    // Define flags
+    deviceFlag = flag.String("device", "", "Serial device to read P1 data from.")
+    keyFlag = flag.String("key", "", "Decryption Key to use.")
 
-	flag.Parse()
+    flag.Parse()
 
-	// Print version info and warnings if either the device- or keyFlag is missing
-	glog.Infoln("Smarty Reader " + VERSION)
-	if *deviceFlag == "" {
-		glog.Warningln("Serial device parameter missing.\n\t" +
-			"This program instance will not be able to access any serial devices.")
-	}
-	if *keyFlag == "" {
-		glog.Warningln("No decryption key found.\n\t" +
-			"Telegrams can not be decrypted in this program instance.")
-	}
-	return deviceFlag, keyFlag
+    // Print version info and warnings if either the device- or keyFlag is missing
+    glog.Infoln("Smarty Reader " + VERSION)
+    if *deviceFlag == "" {
+        glog.Warningln("Serial device parameter missing.\n\t" +
+            "This program instance will not be able to access any serial devices.")
+    }
+    if *keyFlag == "" {
+        glog.Warningln("No decryption key found.\n\t" +
+            "Telegrams can not be decrypted in this program instance.")
+    }
+    return deviceFlag, keyFlag
 }

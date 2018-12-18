@@ -23,12 +23,12 @@
 package smarty
 
 import (
-	"github.com/golang/glog"
+    "github.com/golang/glog"
 )
 
 // Struct allowing to retrieve smarty telegrams, split into initial value, cipher text and gcm tag
 type CipherForwarder struct {
-	deviceInfo
+    deviceInfo
 }
 
 // Creation of a new CipherForwarder
@@ -37,15 +37,15 @@ type CipherForwarder struct {
 // Return:
 // * CipherForwarder: a new object to execute methods on
 func NewCipherForwarder(deviceName string) CipherForwarder {
-	reader, port := openSerialConnection(deviceName)
-	glog.Infoln("Serial connection established")
-	return CipherForwarder{
-		deviceInfo: deviceInfo{
-			deviceName: deviceName,
-			reader:     reader,
-			port:       port,
-		},
-	}
+    reader, port := openSerialConnection(deviceName)
+    glog.Infoln("Serial connection established")
+    return CipherForwarder{
+        deviceInfo: deviceInfo{
+            deviceName: deviceName,
+            reader:     reader,
+            port:       port,
+        },
+    }
 }
 
 // Waits for the next telegram and splits it into its tokens
@@ -55,25 +55,25 @@ func NewCipherForwarder(deviceName string) CipherForwarder {
 // * cipherText: the payload
 // * gcmTag: the aes-gcm tag
 func (cf *CipherForwarder) GetTelegram() (initialValue, cipherText, gcmTag []byte) {
-	readTelegram(cf.deviceInfo.reader)
-	return cf.forwardTelegram()
+    readTelegram(cf.deviceInfo.reader)
+    return cf.forwardTelegram()
 }
 
 func (cf *CipherForwarder) getDeviceInfo() deviceInfo {
-	return cf.deviceInfo
+    return cf.deviceInfo
 }
 
 func (cf *CipherForwarder) forwardTelegram() (iv, cipherText, gcmTag []byte) {
-	iv, cipherText = prepareCipherComponents()
-	return iv, cipherText[:len(cipherText)-GCMTagLength], cipherText[len(cipherText)-GCMTagLength:]
+    iv, cipherText = prepareCipherComponents()
+    return iv, cipherText[:len(cipherText)-GCMTagLength], cipherText[len(cipherText)-GCMTagLength:]
 }
 
 // Disconnect the serial connection
 func (cf *CipherForwarder) Disconnect() {
-	err := cf.port.Close()
-	if err == nil {
-		glog.Infoln("Serial connection closed")
-	} else {
-		glog.Errorln("Unable to close serial connection")
-	}
+    err := cf.port.Close()
+    if err == nil {
+        glog.Infoln("Serial connection closed")
+    } else {
+        glog.Errorln("Unable to close serial connection")
+    }
 }

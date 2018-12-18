@@ -25,25 +25,25 @@
 package share
 
 import (
-	"strings"
+    "strings"
 
-	"github.com/eclipse/paho.mqtt.golang"
-	"github.com/golang/glog"
+    "github.com/eclipse/paho.mqtt.golang"
+    "github.com/golang/glog"
 )
 
 var Client mqtt.Client
 
 // Struct holding the MQTT client and user settings
 type Connection struct {
-	client   mqtt.Client
-	settings Settings
+    client   mqtt.Client
+    settings Settings
 }
 
 // Struct holding user settings for the connection
 type Settings struct {
-	topicRoot string
-	qos       int
-	opts      *mqtt.ClientOptions
+    topicRoot string
+    qos       int
+    opts      *mqtt.ClientOptions
 }
 
 // Creating a new MQTT connection
@@ -54,32 +54,32 @@ type Settings struct {
 // Return:
 // * c: Connection struct, containing a connected MQTT client and the specified parameters
 func NewConnection(topicRoot string, qualityOfService int, options *mqtt.ClientOptions) (c Connection) {
-	lastCharacter := topicRoot[len(topicRoot)-1:]
-	if lastCharacter != "/" {
-		topicRoot = topicRoot + "/"
-	}
-	c = Connection{
-		client: mqtt.NewClient(options),
-		settings: Settings{
-			topicRoot: topicRoot,
-			qos:       qualityOfService,
-			opts:      options,
-		},
-	}
-	c.Reconnect()
-	return c
+    lastCharacter := topicRoot[len(topicRoot)-1:]
+    if lastCharacter != "/" {
+        topicRoot = topicRoot + "/"
+    }
+    c = Connection{
+        client: mqtt.NewClient(options),
+        settings: Settings{
+            topicRoot: topicRoot,
+            qos:       qualityOfService,
+            opts:      options,
+        },
+    }
+    c.Reconnect()
+    return c
 }
 
 // (Re)Connects the MQTT client
 func (c Connection) Reconnect() {
-	if !c.client.IsConnected() {
-		token := c.client.Connect()
-		if token.Wait() && token.Error() != nil {
-			glog.Fatalln(token.Error())
-		} else {
-			glog.Infoln("MQTT Client connected")
-		}
-	}
+    if !c.client.IsConnected() {
+        token := c.client.Connect()
+        if token.Wait() && token.Error() != nil {
+            glog.Fatalln(token.Error())
+        } else {
+            glog.Infoln("MQTT Client connected")
+        }
+    }
 }
 
 // Publishes a message to the MQTT broker
@@ -93,23 +93,23 @@ func (c Connection) Reconnect() {
 // Return:
 // * updated: true if a message was published (depending on updateOnlyIfChanged!)
 func (c Connection) Publish(obis, value, unit string, retained, updateOnlyIfChanged bool) (updated bool) {
-	formattedInput := formatValue(value)
-	if unit != "" {
-		formattedInput = formattedInput + " " + unit
-	}
-	// Implication of updateOnlyIfChanged => isNewValueFor
-	if !updateOnlyIfChanged || isNewValueFor(obis, formattedInput) {
-		tokenP := c.client.Publish(c.settings.topicRoot+obis,
-			byte(c.settings.qos), retained, formattedInput)
-		if tokenP.Wait() && tokenP.Error() == nil {
-			updateValueFor(obis, formattedInput)
-			glog.Infof("Successfully published %s for OBIS %s\n", formattedInput, obis)
-		} else {
-			glog.Errorf("Unable to publish %s for OBIS: %s\n", formattedInput, obis)
-		}
-		return tokenP.Error() == nil
-	}
-	return false
+    formattedInput := formatValue(value)
+    if unit != "" {
+        formattedInput = formattedInput + " " + unit
+    }
+    // Implication of updateOnlyIfChanged => isNewValueFor
+    if !updateOnlyIfChanged || isNewValueFor(obis, formattedInput) {
+        tokenP := c.client.Publish(c.settings.topicRoot+obis,
+            byte(c.settings.qos), retained, formattedInput)
+        if tokenP.Wait() && tokenP.Error() == nil {
+            updateValueFor(obis, formattedInput)
+            glog.Infof("Successfully published %s for OBIS %s\n", formattedInput, obis)
+        } else {
+            glog.Errorf("Unable to publish %s for OBIS: %s\n", formattedInput, obis)
+        }
+        return tokenP.Error() == nil
+    }
+    return false
 }
 
 // Registers as subscriber to the specified topic
@@ -119,36 +119,36 @@ func (c Connection) Publish(obis, value, unit string, retained, updateOnlyIfChan
 // Return:
 // success: true is subscribing the topic was successful
 func (c Connection) Subscribe(obis string, callback mqtt.MessageHandler) (success bool) {
-	topic := c.settings.topicRoot + obis
-	tokenP := c.client.Subscribe(topic, byte(c.settings.qos), callback)
-	if tokenP.Wait() && tokenP.Error() == nil {
-		glog.Errorf("Successfully subscribed to topic: %s\n", topic)
-		return true
-	} else {
-		glog.Errorf("Unable to subscribe to topic: %s\n", topic)
-		return false
-	}
+    topic := c.settings.topicRoot + obis
+    tokenP := c.client.Subscribe(topic, byte(c.settings.qos), callback)
+    if tokenP.Wait() && tokenP.Error() == nil {
+        glog.Errorf("Successfully subscribed to topic: %s\n", topic)
+        return true
+    } else {
+        glog.Errorf("Unable to subscribe to topic: %s\n", topic)
+        return false
+    }
 }
 
 func formatValue(inputValue string) (formattedInput string) {
-	formattedValue := strings.TrimLeft(inputValue, "0")
-	if formattedValue == "" {
-		formattedValue = "0"
-	}
-	if string(formattedValue[0]) == "." {
-		formattedValue = "0" + formattedValue
-	}
-	return formattedValue
+    formattedValue := strings.TrimLeft(inputValue, "0")
+    if formattedValue == "" {
+        formattedValue = "0"
+    }
+    if string(formattedValue[0]) == "." {
+        formattedValue = "0" + formattedValue
+    }
+    return formattedValue
 }
 
 var lastReadValue = make(map[string]string)
 
 func isNewValueFor(obis string, formattedInput string) bool {
-	return lastReadValue[obis] != formattedInput
+    return lastReadValue[obis] != formattedInput
 }
 
 func updateValueFor(obis string, formattedInput string) {
-	lastReadValue[obis] = formattedInput
+    lastReadValue[obis] = formattedInput
 }
 
 // Disconnect from MQTT broker
@@ -156,6 +156,6 @@ func updateValueFor(obis string, formattedInput string) {
 // Parameter:
 // * quiesce: amount of milliseconds to wait before closing
 func (c Connection) Disconnect(quiesce uint) {
-	c.client.Disconnect(quiesce)
-	glog.Infoln("MQTT connection closed")
+    c.client.Disconnect(quiesce)
+    glog.Infoln("MQTT connection closed")
 }
