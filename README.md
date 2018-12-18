@@ -52,7 +52,8 @@ You may swap the *OnlineDecryption* part of the path to any other example found 
 
 ## Running the tests
 
-Currently there is only one test, additions welcome!
+Currently there are only two simple tests, additions welcome!
+The first tests the decryption of a pre-recorded telegram, while the second takes a telegram and splits it into the initial value and cipher components.
 ```
 go test github.com/NEXXTLAB/go-smarty-reader/smarty/
 ```
