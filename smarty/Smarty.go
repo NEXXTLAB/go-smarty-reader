@@ -28,10 +28,8 @@ import (
     "github.com/tarm/serial"
 )
 
-type State int
-
 const GCMTagLength = 12
-
+type State int
 const (
     waitingForStartByte State = iota + 1
     readSystemTitleLength
@@ -44,7 +42,6 @@ const (
     readGcmTag
     doneReadingTelegram
 )
-
 var (
     state                                                = waitingForStartByte
     currentBytePosition, changeToNextStateAt, dataLength int
@@ -182,5 +179,12 @@ func readTelegram(reader *bufio.Reader) {
             ready = processByteStream(buffer, length)
         }
     }
+}
 
+func ProcessTelegram(input []byte) (iv, cipherText []byte) {
+    ok := processByteStream(input, len(input))
+    if !ok {
+        glog.Errorf("Telegram tokenization unable to complete.")
+    }
+    return prepareCipherComponents()
 }
