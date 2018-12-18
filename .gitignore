@@ -16,3 +16,4 @@ vendor/*
 
 # IDE specific
 .idea/
+go-smarty-reader.iml
