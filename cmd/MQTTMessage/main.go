@@ -22,57 +22,21 @@
 package main
 
 import (
-    "fmt"
-    "os"
-
-    "github.com/NEXXTLAB/go-smarty-reader/cmd/util"
-    "github.com/NEXXTLAB/go-smarty-reader/share"
-    "github.com/eclipse/paho.mqtt.golang"
+	"github.com/NEXXTLAB/go-smarty-reader/cmd/util"
 )
 
 func main() {
 
-    util.StartupFlagParsing()
+	// Function defined in cmd/util/CommonFlagParsing.go
+	util.StartupFlagParsing()
 
-    // Get the machine hostname
-    hostname := getHostname()
+	// MQTT Setup extracted in a separate function.
+	// Functions defined in cmd/util/CommonMqttSetup.go
+	client := util.MqttSetup(util.GetHostname())
 
-    // MQTT Setup extracted in a separate function.
-    client := mqttSetup(hostname)
+	// Publish "Hello" to the ""nexxtlab/dev/smarty/go/<hostname>/World" topic, without unit.
+	client.Publish("World", "Hello", "", false, false)
 
-    // Publish "Hello" to the ""nexxtlab/dev/smarty/go/<hostname>/World" topic, without unit.
-    client.Publish("World", "Hello", "", false, false)
-
-    // Close the MQTT connection
-    client.Disconnect(250)
-}
-
-func getHostname() string {
-    // Retrieve the machine hostname
-    hostname, err := os.Hostname()
-    if err != nil {
-        // If getting a host name fails, let the user know and assign a fixed backup string
-        fmt.Println(err)
-        hostname = "BackupSystemHost-123"
-    }
-    fmt.Printf("Deteced hostname: %s\n", hostname)
-    return hostname
-}
-
-func mqttSetup(hostname string) share.Connection {
-    // The topic root serves as a common root for all published messages.
-    // In order to avoid interference of other users who might publish to the same topic
-    // the hostname is part of the topic root.
-    topicRoot := "nexxtlab/dev/smarty/go/" + hostname
-    qualityOfService := 2
-
-    // Setting some options, such as the broker to connect to
-    // Further settings can be found on the "paho.mqtt.golang" project
-    // Using the encrypted broker port
-    // Alternatively you could connect to "iot.eclipse.org:1883" for an unencrypted connection
-    opts := mqtt.NewClientOptions()
-    opts.AddBroker("ssl://iot.eclipse.org:8883")
-
-    // Create the client on which publishing operations can be executed
-    return share.NewConnection(topicRoot, qualityOfService, opts)
+	// Close the MQTT connection
+	client.Disconnect(250)
 }
