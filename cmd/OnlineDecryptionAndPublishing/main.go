@@ -35,18 +35,18 @@ import (
 func main() {
 
 	// Function defined in cmd/util/CommonFlagParsing.go
-	deviceFlag, keyFlag := util.StartupFlagParsing()
-	fmt.Printf("Device to read from: %s\n", *deviceFlag)
-	fmt.Printf("Decryption key: %s\n", *keyFlag)
+	flags := util.StartupFlagParsing()
+	fmt.Printf("Device to read from: %s\n", *flags.Device)
+	fmt.Printf("Decryption key: %s\n", *flags.Key)
 
 	// Preparing the MQTT connection
 	// Functions defined in cmd/util/CommonMqttSetup.go
-	client := util.MqttSetup(util.GetHostname())
+	client := util.MqttSetup(util.GetHostname(), flags.Mqtt)
 
 	// Create a new smarty reader which will decrypt the telegrams after reading them
 	// The serial connection is established right away
 	// smartyObj is the object you may invoke methods on
-	smartyObj := smarty.NewOnlineDecryptor(*deviceFlag, *keyFlag)
+	smartyObj := smarty.NewOnlineDecryptor(*flags.Device, *flags.Key)
 
 	// Read until 100 telegrams could be successfully decrypted and published
 	for telegramCounter := 0; telegramCounter < 100; {

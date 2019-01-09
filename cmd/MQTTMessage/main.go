@@ -28,11 +28,11 @@ import (
 func main() {
 
 	// Function defined in cmd/util/CommonFlagParsing.go
-	util.StartupFlagParsing()
+	flags := util.StartupFlagParsing()
 
 	// MQTT Setup extracted in a separate function.
 	// Functions defined in cmd/util/CommonMqttSetup.go
-	client := util.MqttSetup(util.GetHostname())
+	client := util.MqttSetup(util.GetHostname(), flags.Mqtt)
 
 	// Publish "Hello" to the ""nexxtlab/dev/smarty/go/<hostname>/World" topic, without unit.
 	client.Publish("World", "Hello", "", false, false)

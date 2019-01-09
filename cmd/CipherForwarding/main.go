@@ -29,13 +29,13 @@ import (
 func main() {
 
     // Function defined in cmd/util/CommonFlagParsing.go
-    deviceFlag, _ := util.StartupFlagParsing()
+    flags := util.StartupFlagParsing()
 
     // Create a new smarty reader which will not decrypt the telegrams,
     // but return the initial value and the cipher text
     // The serial connection is established right away
     // smartyObj is the object you may invoke methods on
-    smartyObj := smarty.NewCipherForwarder(*deviceFlag)
+    smartyObj := smarty.NewCipherForwarder(*flags.Device)
 
     // Print 100 initial value / cipher tuples
     for counter := 0; counter < 100; counter++ {

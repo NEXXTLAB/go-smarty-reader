@@ -29,12 +29,12 @@ import (
 func main() {
 
     // Function defined in cmd/util/CommonFlagParsing.go
-    deviceFlag, keyFlag := util.StartupFlagParsing()
+    flags := util.StartupFlagParsing()
 
     // Create a new smarty reader which will decrypt the telegrams after reading them
     // The serial connection is established right away
     // smartyObj is the object you may invoke methods on
-    smartyObj := smarty.NewOnlineDecryptor(*deviceFlag, *keyFlag)
+    smartyObj := smarty.NewOnlineDecryptor(*flags.Device, *flags.Key)
 
     // Read until 100 telegrams could be successfully decrypted
     for telegramCounter := 0; telegramCounter < 100; {
