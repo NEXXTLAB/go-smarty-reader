@@ -51,7 +51,7 @@ func randomString(n int) string {
 	return string(str)
 }
 
-func MqttSetup(hostname string) share.Connection {
+func MqttSetup(hostname string) share.MqttConnection {
 	// The topic root serves as a common root for all published messages.
 	// In order to avoid interference of other users who might publish to the same topic
 	// the hostname is part of the topic root.
@@ -66,5 +66,5 @@ func MqttSetup(hostname string) share.Connection {
 	opts.AddBroker("ssl://iot.eclipse.org:8883")
 
 	// Create the client on which publishing operations can be executed
-	return share.NewConnection(topicRoot, qualityOfService, opts)
+	return share.NewMqttConnection(topicRoot, qualityOfService, opts)
 }
