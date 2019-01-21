@@ -35,7 +35,8 @@ dep ensure
 Please find all prepared examples inside of [cmd/](https://github.com/NEXXTLAB/go-smarty-reader/tree/master/cmd). In order to run any example you should take note of following command-line arguments:
 * key: your device specific decryption key
 * device: the interface on which the smart meter is connected to your target platform
-* stderrthreshold: allows to adjust the console output of glog, see [here](https://svn.apache.org/repos/asf/incubator/mesos/trunk/third_party/glog-0.3.1/doc/glog.html?p=1197837) for more details
+
+Additional arguments and details may be found on the [wiki page](https://github.com/NEXXTLAB/go-smarty-reader/wiki/Command-line-arguments).
 
 The key should be, as mentioned earlier, requested from your electricity grid operator. To set the device argument, you will need to find the correct interface. Here a quick How-To:
 * Windows: open your *Device Manager*, expand the *Ports* section, find the correct device and write down the COM port (eg. COM8)
