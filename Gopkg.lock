@@ -2,23 +2,23 @@
 
 
 [[projects]]
-  branch = "master"
   digest = "1:e7b941ba387539bb2b5ab3d39136c0dea1aaebc5c4603099687605fdf4984b94"
   name = "github.com/basvdlei/gotsmart"
   packages = ["dsmr"]
   pruneopts = "UT"
-  revision = "eca0a099edbed809571a86e6299afff189d0938e"
+  revision = "d4f624925f5cc623be96d633e487ebd0e7c45a21"
+  version = "v0.0.2"
 
 [[projects]]
-  digest = "1:184008c955d6a3226b700c13ed0e875a7a051a759618f9bccba9b5c99f17faa5"
+  digest = "1:bb89a2542933056fcebc2950bb15ec636e623cc43c96597288aa2009f15b0ce1"
   name = "github.com/eclipse/paho.mqtt.golang"
   packages = [
     ".",
     "packets",
   ]
   pruneopts = "UT"
-  revision = "36d01c2b4cbeb3d2a12063e4880ce30800af9560"
-  version = "v1.1.1"
+  revision = "adca289fdcf8c883800aafa545bc263452290bae"
+  version = "v1.2.0"
 
 [[projects]]
   branch = "master"
